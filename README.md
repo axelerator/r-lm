@@ -16,7 +16,7 @@ $ wc -l src/main.rs client/src/Main.elm www/index.html
 The approach is inspired by [Lamdera's](https://dashboard.lamdera.app/docs) message exchange model.
 That means the app developer does not have to care about the specifics of the underlying (http)protocol.
 
-I you have questions or suggestions feel free reach out to me (@axelerator) on the [Elm Slack](https://elm-lang.org/community/slack)
+If you have questions or suggestions feel free reach out to me (@axelerator) on the [Elm Slack](https://elm-lang.org/community/slack)
 
 ## How to run
 
@@ -38,7 +38,7 @@ Success!
 
     Main ───> ../www/assets/main.js
 ```
-Alternatively to the last step, there is also [a watch script](client/bin/watch.sh) that will recompile the Elm client on changes, but it's only tested on MacOs so far.
+Alternatively to the last step, there is also [a watch script](client/bin/watch.sh) that will recompile the Elm client on changes, but it's only tested on macOS so far.
 
 ## How it works
 
@@ -53,7 +53,7 @@ Directory structure:
 │   │   │   └── Bindings.elm // generated Elm bindings
 │   │   └── Main.elm         // Elm client 
 │   └── bin
-│       └── watch.sh         // (MacOs) watch script to compile on save
+│       └── watch.sh         // (macOS) watch script to compile on save
 └── www
     ├── index.html           // Entry point
     └── assets
@@ -79,15 +79,16 @@ There is one more route `/send` that the Elm client can use to send messages to 
 
 Messages from the frontend to the backend are defined on the Rust side as the `ToBackend` enum.
 When the server gets started it uses the [`elm_rs` crate](https://crates.io/crates/elm-rs) to write
-the matching Elm types into the Elm applications `src` directory.
+the matching Elm types into the Elm application's `src` directory.
 
 The same happens for the `ToFrontend` enum that defines the messages from the server to the frontend.
 
 `ToBackend` messages can be sent using the `sendToBackend` function where they will be automatically
-deserialized in the matching Rust type.
+deserialized into the matching Rust type.
 
-The messages will be processed in a single worked thread where the server can respond by sending
+The messages will be processed in a single worker thread where the server can respond by sending
 `ToFrontend` messages to one or more clients (identified by `session_id`)
+
 
 These messages get transferred to the Elm client through a port and then centrally processed
 by the [`updateFromBackend` function](https://github.com/axelerator/ruelm/blob/main/client/src/Main.elm#L55)
